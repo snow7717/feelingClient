@@ -1,0 +1,152 @@
+{
+	"pages": [
+		{
+			"path": "pages/home/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"autoFocus": true,
+							"placeholder": "文章标题"
+						}
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/message/index",
+			"style": {
+				"navigationBarTitleText": "我的消息"
+			}
+		},
+		{
+			"path": "pages/home/article/show",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/index/index",
+			"style": {
+				"navigationBarTitleText": "用户中心"
+			}
+		},
+		{
+			"path": "pages/user/register/index",
+			"style": {
+				"navigationBarTitleText": "用户注册"
+			}
+		},
+		{
+			"path": "pages/user/login/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/setting/index",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/user/info/index",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		},
+		{
+			"path": "pages/user/article/index",
+			"style": {
+				"navigationBarTitleText": "文章管理"
+			}
+		},
+		{
+			"path": "pages/user/article/list",
+			"style": {
+				"navigationBarTitleText": "文章列表",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+				  "titleNView": {
+						"searchInput": {
+							"autoFocus": true,
+							"placeholder": "文章标题"
+						},
+				    "buttons": [
+				      {
+				        "text": "+",
+				        "fontSize": "22px"
+							}
+				    ]
+				  }
+				}
+			}
+		},
+		{
+			"path": "pages/user/article/create",
+			"style": {
+				"navigationBarTitleText": "发表文章"
+			}
+		},
+		{
+			"path": "pages/user/article/edit",
+			"style": {
+				"navigationBarTitleText": "编辑文章"
+			}
+		},
+		{
+			"path": "pages/user/article/comment",
+			"style": {
+				"navigationBarTitleText": "文章评论"
+			}
+		},
+		{
+			"path": "pages/user/comment/index",
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"autoFocus": true,
+							"placeholder": "评论内容"
+						}
+					}
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#333333",
+		"selectedColor": "#FF4A38",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/home/index/index",
+				"iconPath": "static/image/common/home.png",
+				"selectedIconPath": "static/image/common/home1.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/home/message/index",
+				"iconPath": "static/image/common/message.png",
+				"selectedIconPath": "static/image/common/message1.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/user/index/index",
+				"iconPath": "static/image/common/user.png",
+				"selectedIconPath": "static/image/common/user1.png",
+				"text": "我的"
+			}
+		]
+	}
+}
