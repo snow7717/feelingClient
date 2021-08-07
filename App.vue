@@ -10,7 +10,15 @@
 			serverUrl: 'http://localhost:3000',
 		},
 		onLaunch() {
-			
+			if(uni.getStorageSync('unread')) {
+				uni.setTabBarBadge({
+				  index: 1,
+				  text: uni.getStorageSync('unread') + '',
+					fail(err) {
+						console.error(err)
+					}
+				})
+			}
 		},
 		onShow() {
 		},

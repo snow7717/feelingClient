@@ -3,7 +3,6 @@
 		{
 			"path": "pages/home/index/index",
 			"style": {
-				"navigationBarTitleText": "首页",
 				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": {
@@ -19,6 +18,13 @@
 			"path": "pages/home/message/index",
 			"style": {
 				"navigationBarTitleText": "我的消息"
+			}
+		},
+		{
+			"path": "pages/home/message/chat",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{

@@ -61,6 +61,15 @@
 				})
 			}
 		},
+		onLoad(option) {
+			uni.setTabBarBadge({
+			  index: 1,
+			  text: uni.getStorageSync('unread'),
+				fail(err) {
+					console.error(err)
+				}
+			})
+		},
 		methods: {
 			go(url) {
 				uni.navigateTo({
@@ -78,6 +87,7 @@
 							socket.disconnect()
 				      uni.removeStorageSync('user')
 							uni.removeStorageSync('authorization')
+							uni.removeStorageSync('unread')
 							uni.removeTabBarBadge({
 								index: 1
 							})

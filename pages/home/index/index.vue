@@ -17,7 +17,7 @@
 				</view>
 			</view>
 			<view class="card-footer" v-if='user._id'>
-				<view class="praise-wrapper f-ib" v-on:click='togglePraise(item._id)'>
+				<view class="praise-wrapper f-ib">
 					<uni-icons v-bind:type='item.praises.indexOf(user._id) == -1 ? "hand-thumbsup" : "hand-thumbsup-filled"' color="#999" class="icon"></uni-icons>
 					<text class="num">{{item.praises.length}}</text>
 				</view>
@@ -27,7 +27,8 @@
 				</view>
 			</view>
 		</view>
-		<text class="load-all f-db f-tac" v-if="isall">已经加载全部了~</text>
+		<text class="load-all f-db f-tac" v-if="isall" v-on:click="backTop">已经加载全部了~</text>
+		<uni-icons v-show="scroll > 500" type="arrowthinup" class="backtop" size="24" v-on:click='backtop'></uni-icons>
 		<uni-popup ref="comment" type="bottom">
 			<scroll-view class="comment-popup" scroll-y @scrolltoupper='commentRefresh' @scrolltolower='commentLoadmore'>
 				<five-commentlist v-bind:commentList="comment.data" v-on:clickPraise="commentPraise" v-on:clickDelete="delcomment" v-bind:user="user"></five-commentlist>
@@ -104,6 +105,11 @@
 			color #999
 			margin-top 20rpx
 		}
+		.backtop{
+			position fixed
+			bottom 200rpx
+			right 40rpx
+		}
 		.comment-popup{
 			padding-bottom 400rpx
 			max-height 600rpx
@@ -145,7 +151,8 @@
 					article: '',
 					content: '',
 					commentator: ''
-				}
+				},
+				scroll: 0
 			}
 		},
 		computed: {
@@ -185,10 +192,19 @@
 				this.index()
 			}
 		},
+		onPageScroll(e) {
+			this.scroll = e.scrollTop
+		},
 		methods: {
 			go(url) {
 				uni.navigateTo({
 					url: url
+				})
+			},
+			backtop() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 300
 				})
 			},
 			index() {

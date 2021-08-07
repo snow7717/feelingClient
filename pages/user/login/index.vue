@@ -122,6 +122,7 @@
 									}
 								})
 								uni.setStorageSync('authorization', res.data.token)
+								uni.setStorageSync('unread', res.data.unread == 0 ? '' : res.data.unread > 99 ? '99+' : res.data.unread + '')
 								setTimeout(() => {
 									uni.switchTab({
 										url: '/pages/user/index/index'
