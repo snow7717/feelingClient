@@ -1,14 +1,12 @@
 <template>
 	<view class="container">
-		<uni-list>
-			<uni-swipe-action>
-			  <uni-swipe-action-item v-for='(item,index) in messages' v-bind:key='index' v-bind:right-options="options" @click="handleAction($event,item.from._id)">
-					<uni-list v-bind:border="true" >
-						<uni-list-chat v-on:click='go(`/pages/home/message/chat?_id=${item.from._id}&name=${item.from.name}`)' clickable v-bind:title="item.from.name" v-bind:avatar="item.from.avatar" v-bind:note="item.messages[0].content" v-bind:time="item.messages[0].created_at" v-bind:badge-text="item.unread"></uni-list-chat>
-					</uni-list>
-				</uni-swipe-action-item>
-			</uni-swipe-action>		
-		</uni-list>
+		<uni-swipe-action>
+			<uni-swipe-action-item v-for='(item,index) in messages' v-bind:key='index' v-if='item.deletes.indexOf(user._id) == -1' v-bind:right-options="options" @click="handleAction($event,item.from._id)">
+				<uni-list v-bind:border="true" >
+					<uni-list-chat v-on:click='go(item.from._id == user._id ? `/pages/home/message/chat?_id=${item.to._id}&name=${item.to.name}` : `/pages/home/message/chat?_id=${item.from._id}&name=${item.from.name}`)' clickable v-bind:title="item.from.name == user.name ? item.to.name : item.from.name" v-bind:avatar="item.from.name == user.name ? item.to.avatar : item.from.avatar" v-bind:note="item.messages[item.messages.length - 1].content" v-bind:time="item.messages[0].created_at" v-bind:badge-text="item.unread"></uni-list-chat>
+				</uni-list>
+			</uni-swipe-action-item>
+		</uni-swipe-action>		
 	</view>
 </template>
 
@@ -16,9 +14,32 @@
 </style>
 
 <script>
+	import socket from '@/socket.js'
+	
 	export default {
 		name: 'message',
 		data() {
+			socket.on('message',(data) => {
+				let messages = this.messages.filter((item) => {
+					return (item.from._id == data.from._id && item.deletes.indexOf(this.user._id) == -1) || (item.to._id == data.from._id && item.deletes.indexOf(this.user._id) == -1)
+				})
+				if(messages.length == 0) {
+					this.messages.push({
+						from: data.from,
+						to: data.to,
+						messages: [data],
+						deletes: data.deletes
+					})
+				}else{
+					messages[0].messages.push(data)
+				} 
+				
+				for(let item of this.messages) {
+					this.$set(item,'unread',item.messages.filter((itemer) => {
+						return itemer.read == false
+					}).length)
+				}
+			})
 			return {
 				user: {},
 				messages: [],
@@ -58,14 +79,14 @@
 					url: '/message',
 					success: res => {
 						let unread = res.data.data.filter((item) => {
-							return item.read == false
+							return item.read == false && item.from._id != this.user._id && item.deletes.indexOf(this.user._id) == -1
 						}).length
 						if(unread == 0) {
 							uni.removeTabBarBadge({
 								index: 1
 							})
 						}else{
-							uni.setStorageSync('unread', unread)
+							uni.setStorageSync('unread', unread + '')
 							uni.setTabBarBadge({
 							  index: 1,
 							  text: unread + ''
@@ -73,12 +94,14 @@
 						}
 						for(let item of res.data.data) {
 							let messages = this.messages.filter((itemer) => {
-								return itemer.from._id == item.from._id
+								return itemer.from._id == item.from._id || itemer.from._id == item.to._id
 							})
 							if(messages.length == 0) {
 								this.messages.push({
 									from: item.from,
-									messages: [item]
+									to: item.to,
+									messages: [item],
+									deletes: item.deletes
 								})
 							}else{
 								messages[0].messages.push(item)
@@ -86,7 +109,7 @@
 						}
 						for(let item of this.messages) {
 							this.$set(item,'unread',item.messages.filter((itemer) => {
-								return itemer.read == false
+								return itemer.read == false && itemer.from._id != this.user._id
 							}).length)
 						}
 					}
@@ -118,7 +141,7 @@
 					    		})
 					    		if(res.data.success) {
 										this.messages = []
-					    			this.index(false)
+					    			this.index()
 					    		}
 					    	}
 					    })

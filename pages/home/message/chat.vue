@@ -17,7 +17,7 @@
 				</view>
 			</block>
 		</view>
-		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" placeholder="请输入内容" @iconClick="send" size></uni-easyinput>
+		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" placeholder="请输入内容" @iconClick="send"></uni-easyinput>
 	</view>
 </template>
 
@@ -83,9 +83,16 @@
 </style>
 
 <script>
+	import socket from '@/socket.js'
+	
 	export default {
 		name: 'chat',
 		data() {
+			socket.on('message', (data) => {
+				this.messages.push(data)
+				this.$forceUpdate()
+				this.initscroll()
+			})
 			return {
 				to: {},
 				messages: [],
@@ -107,13 +114,17 @@
 		onLoad(option) {
 			this.to = option
 			this.init()
-			this.index()
+			this.index({
+					initscroll: true
+				})
 		},
 		onPullDownRefresh() {
 			if(this.isall) {
 			}else{
 				this.page ++
-				this.index()
+				this.index({
+					initscroll: false
+				})
 			}
 			setTimeout(() => {
 			  uni.stopPullDownRefresh()
@@ -132,7 +143,20 @@
 					}
 				})
 			},
-			index() {
+			initscroll() {
+				this.$nextTick(() => {
+					let view = uni.createSelectorQuery().select(".main")
+					view.boundingClientRect((data) => {
+						if(data) {
+							uni.pageScrollTo({
+								scrollTop: data.height,
+								duration: 0
+							})
+						}
+					}).exec()
+				})
+			},
+			index(option) {
 				this.request({
 					url: '/message/chatindex',
 					data: {
@@ -142,12 +166,16 @@
 					},
 					success: res => {
 						this.isall = res.data.data.length < 10
-						this.messages = this.messages.concat(res.data.data)
-						console.log(this.messages)
+						for(let item of res.data.data) {
+							this.messages.unshift(item)
+						}
 						if(this.messages.filter((item) => {
-							return item.read == false
+							return item.read == false && item.to == this.user._id
 						}).length > 0) {
 							this.setRead()
+						}
+						if(option.initscroll) {
+							this.initscroll()
 						}
 					}
 				})
@@ -166,34 +194,18 @@
 						icon: 'none'
 					})
 				}else{
-					this.request({
-						url: '/message/create',
-						method: 'POST',
-						data: {
-							to: this.to._id,
-							content: this.form.content
-						},
-						success: res => {
-							if(res.data.success) {
-								this.form.content = ''
-								this.messages.push(res.data.data)
-								this.$nextTick(() => {
-									let view = uni.createSelectorQuery().select(".main")
-									view.boundingClientRect((data) => {
-										uni.pageScrollTo({
-											scrollTop: data.height,
-											duration: 0
-										})
-									}).exec()
-								})
-							}else{
-								uni.showToast({
-									title: res.data.message,
-									icon: 'none'
-								})
-							}
-						}
+					socket.emit('message', {
+						from: this.user,
+						to: this.to._id,
+						content: this.form.content
 					})
+					this.messages.push({
+						from: this.user,
+						to: this.to._id,
+						content: this.form.content
+					})
+					this.initscroll()
+					this.form.content = ''
 				}
 			}
 		}

@@ -114,11 +114,8 @@
 								uni.setStorage({
 									key: 'user',
 									data: res.data.data,
-									success: () => {
+									complete: () => {
 										socket.connect()
-										socket.emit('login',{
-											user: res.data.data._id
-										})
 									}
 								})
 								uni.setStorageSync('authorization', res.data.token)

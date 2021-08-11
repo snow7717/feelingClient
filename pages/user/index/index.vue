@@ -62,13 +62,12 @@
 			}
 		},
 		onLoad(option) {
-			uni.setTabBarBadge({
-			  index: 1,
-			  text: uni.getStorageSync('unread'),
-				fail(err) {
-					console.error(err)
-				}
-			})
+			if(uni.getStorageSync('unread')) {
+				uni.setTabBarBadge({
+				  index: 1,
+				  text: uni.getStorageSync('unread') + ''
+				})
+			}
 		},
 		methods: {
 			go(url) {

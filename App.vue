@@ -13,10 +13,11 @@
 			if(uni.getStorageSync('unread')) {
 				uni.setTabBarBadge({
 				  index: 1,
-				  text: uni.getStorageSync('unread') + '',
-					fail(err) {
-						console.error(err)
-					}
+				  text: uni.getStorageSync('unread') + ''
+				})
+			}else{
+				uni.removeTabBarBadge({
+					index: 1
 				})
 			}
 		},
