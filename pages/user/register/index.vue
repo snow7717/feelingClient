@@ -1,5 +1,10 @@
 <template>
 	<view class="container">
+		<view class="header">
+			<uni-icons type="person" class="back" size="24" v-on:click='go("/pages/user/login/index")'></uni-icons>
+			<text class="header-title f-tac f-fwb">用户注册</text>
+			<uni-icons v-on:click='gohome' type='home' color="#999" class="icon" size="24"></uni-icons>
+		</view>
 		<uni-forms ref="form" v-bind:modelValue="form" v-bind:rules="rules" class="form">
 		  <uni-forms-item name="name">
 		    <uni-easyinput type="text" v-model="form.name" placeholder="请输入姓名" />
@@ -19,7 +24,24 @@
 
 <style lang='stylus' scoped>
 	.container{
-		padding 20rpx;
+		.header{
+			padding 20rpx
+			background-color #EEEEEE
+			display flex
+			height 60rpx
+			line-height 60rpx
+			margin-bottom 20rpx
+			.back{
+				width 50rpx
+			}
+			.header-title{
+				flex 1
+			}
+		}
+		.form{
+			padding-left 20rpx
+			padding-right 20rpx
+		}
 	}
 </style>
 
@@ -87,6 +109,16 @@
 			
 		},
 		methods: {
+			go(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
+			gohome() {
+				uni.switchTab({
+					url: '/pages/home/index/index'
+				})
+			},
 			submit(form) {
 			  this.$refs.form.submit().then(res => {
 			    uni.request({

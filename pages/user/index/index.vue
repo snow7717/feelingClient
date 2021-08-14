@@ -68,6 +68,12 @@
 				  text: uni.getStorageSync('unread') + ''
 				})
 			}
+			if(uni.getStorageSync('count')) {
+				uni.setTabBarBadge({
+				  index: 2,
+				  text: uni.getStorageSync('count') + ''
+				})
+			}
 		},
 		methods: {
 			go(url) {
@@ -89,6 +95,9 @@
 							uni.removeStorageSync('unread')
 							uni.removeTabBarBadge({
 								index: 1
+							})
+							uni.removeTabBarBadge({
+								index: 2
 							})
 							uni.showToast({
 								title: '退出成功',

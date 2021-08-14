@@ -1,9 +1,10 @@
 <template>
 	<view class="container">
-		<uni-swipe-action>
+		<text class="no-message f-db f-tac" v-if='messages.filter((item) => {return item.deletes.indexOf(user._id) == -1}).length == 0'>您还未收到任何消息~</text>
+		<uni-swipe-action v-else>
 			<uni-swipe-action-item v-for='(item,index) in messages' v-bind:key='index' v-if='item.deletes.indexOf(user._id) == -1' v-bind:right-options="options" @click="handleAction($event,item.from._id)">
 				<uni-list v-bind:border="true" >
-					<uni-list-chat v-on:click='go(item.from._id == user._id ? `/pages/home/message/chat?_id=${item.to._id}&name=${item.to.name}` : `/pages/home/message/chat?_id=${item.from._id}&name=${item.from.name}`)' clickable v-bind:title="item.from.name == user.name ? item.to.name : item.from.name" v-bind:avatar="item.from.name == user.name ? item.to.avatar : item.from.avatar" v-bind:note="item.messages[item.messages.length - 1].content" v-bind:time="item.messages[0].created_at" v-bind:badge-text="item.unread"></uni-list-chat>
+					<uni-list-chat v-on:click='go(item.from._id == user._id ? `/pages/home/message/chat?_id=${item.to._id}&name=${item.to.name}` : `/pages/home/message/chat?_id=${item.from._id}&name=${item.from.name}`)' clickable v-bind:title="item.from.name == user.name ? item.to.name : item.from.name" v-bind:avatar="item.from.name == user.name ? item.to.avatar : item.from.avatar" v-bind:note="item.messages[item.messages.length - 1].content" v-bind:time="item.messages[item.messages.length - 1].created_at" v-bind:badge-text="item.unread"></uni-list-chat>
 				</uni-list>
 			</uni-swipe-action-item>
 		</uni-swipe-action>		
@@ -11,6 +12,10 @@
 </template>
 
 <style lang='stylus' scoped>
+	.no-message{
+		color #999
+		margin-top 100rpx
+	}
 </style>
 
 <script>
@@ -97,14 +102,18 @@
 								return itemer.from._id == item.from._id || itemer.from._id == item.to._id
 							})
 							if(messages.length == 0) {
-								this.messages.push({
+								this.messages.unshift({
 									from: item.from,
 									to: item.to,
-									messages: [item],
+									messages: [item].filter((itemer) => {
+										return itemer.deletes.indexOf(this.user._id) == -1
+									}),
 									deletes: item.deletes
 								})
 							}else{
-								messages[0].messages.push(item)
+								if(item.deletes.indexOf(this.user._id) == -1) {
+									messages[0].messages.unshift(item)
+								}
 							} 
 						}
 						for(let item of this.messages) {

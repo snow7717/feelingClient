@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="header">
-			<uni-icons type="arrowleft" class="back" size="24" v-on:click='back'></uni-icons>
+			<uni-icons type="personadd" class="back" size="24" v-on:click='go("/pages/user/register/index")'></uni-icons>
 			<text class="header-title f-tac f-fwb">用户登录</text>
 			<uni-icons v-on:click='gohome' type='home' color="#999" class="icon" size="24"></uni-icons>
 		</view>
@@ -91,6 +91,11 @@
 					delta: 1
 				})
 			},
+			go(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
 			gohome() {
 				uni.switchTab({
 					url: '/pages/home/index/index'
@@ -120,6 +125,7 @@
 								})
 								uni.setStorageSync('authorization', res.data.token)
 								uni.setStorageSync('unread', res.data.unread == 0 ? '' : res.data.unread > 99 ? '99+' : res.data.unread + '')
+								uni.setStorageSync('count', res.data.count == 0 ? '' : res.data.count > 99 ? '99+' : res.data.count + '')
 								setTimeout(() => {
 									uni.switchTab({
 										url: '/pages/user/index/index'

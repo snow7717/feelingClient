@@ -1,13 +1,15 @@
 {
-  "id": "uni-collapse",
-  "displayName": "uni-collapse 折叠面板",
-  "version": "1.3.1",
-  "description": "Collapse 组件，可以折叠 / 展开的内容区域。",
+  "id": "uni-data-picker",
+  "displayName": "uni-data-picker 数据驱动的picker选择器",
+  "version": "0.4.0",
+  "description": "Picker选择器",
   "keywords": [
     "uni-ui",
-    "折叠",
-    "折叠面板",
-    "手风琴"
+    "uniui",
+    "picker",
+    "级联",
+    "省市区",
+    ""
 ],
   "repository": "https://github.com/dcloudio/uni-ui",
   "engines": {
@@ -41,7 +43,7 @@
   },
   "uni_modules": {
     "dependencies": [
-      "uni-icons"
+      "uni-load-more"
     ],
     "encrypt": [],
     "platforms": {

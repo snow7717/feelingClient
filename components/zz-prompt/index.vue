@@ -4,7 +4,7 @@
       <view class="prompt-top">
         <text class="prompt-title">{{title}}</text>
         <input v-if="!isMutipleLine" class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value">
-        <textarea v-else class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value"></textarea>
+        <textarea v-else class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value" auto-height></textarea>
       </view>
       <slot></slot>
       <view class="prompt-buttons">
@@ -103,7 +103,6 @@
     justify-content: space-between;
     align-items: center;
     width: 600upx;
-    min-height: 300upx;
     background: white;
     border-radius: 20upx;
     overflow: hidden;
@@ -122,13 +121,14 @@
   }
 
   .prompt-input {
-    width: 520upx;
+		width: 520rpx;
     min-height: 72upx;
     padding: 8upx 16upx;
     border: 2upx solid #ddd;
     border-radius: 8upx;
     font-size: 28upx;
     text-align: left;
+		margin-bottom: 40rpx;
   }
 
   .prompt-buttons {
@@ -145,6 +145,7 @@
     width: 50%;
     background: white;
     border-radius: 0;
+		font-size: 28rpx;
   }
 
   .prompt-cancle {

@@ -34,6 +34,46 @@
 			}
 		},
 		{
+			"path": "pages/home/user/show",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/user/article",
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"autoFocus": true,
+							"placeholder": "文章标题"
+						}
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/friend/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"autoFocus": true,
+							"placeholder": "好友昵称"
+						}
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/friend/request",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/user/index/index",
 			"style": {
 				"navigationBarTitleText": "用户中心"
@@ -42,7 +82,7 @@
 		{
 			"path": "pages/user/register/index",
 			"style": {
-				"navigationBarTitleText": "用户注册"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -146,6 +186,12 @@
 				"iconPath": "static/image/common/message.png",
 				"selectedIconPath": "static/image/common/message1.png",
 				"text": "消息"
+			},
+			{
+				"pagePath": "pages/home/friend/index",
+				"iconPath": "static/image/common/friend.png",
+				"selectedIconPath": "static/image/common/friend1.png",
+				"text": "好友"
 			},
 			{
 				"pagePath": "pages/user/index/index",

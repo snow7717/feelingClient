@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="card" v-for='(item,index) in articles' v-bind:key='index'>
 			<view class="card-header">
-				<image class="avatar" v-bind:src='item.author.avatar' mode="widthFix" v-on:click='go(item.author._id == user._id ? "/pages/user/info/index" : "/pages/home/user/show?_id=" + item.author._id)'></image>
+				<image class="avatar" v-bind:src='item.author.avatar' mode="widthFix" v-on:click='go("/pages/home/user/show?_id=" + item.author._id)'></image>
 				<view class="header-info">
 					<text class="author-name f-db">{{item.author.name}}</text>
 					<text class="created-at f-db">{{item.created_at}} 发布</text>
@@ -139,6 +139,7 @@
 		data() {
 			return {
 				stitle: '',
+				author: '',
 				articles: [],
 				page: 1,
 				isall: false,
@@ -164,7 +165,8 @@
 			this.user = uni.getStorageSync('user')
 			this.form.commentator = this.user._id
 		},
-		onLoad() {
+		onLoad(option) {
+			this.author = option.author
 			this.index()
 		},
 		onNavigationBarSearchInputChanged(e) {
@@ -211,8 +213,8 @@
 				uni.request({
 					url: app.globalData.serverUrl + '/article',
 					data: {
+						author: this.author,
 						title: this.stitle,
-						author: '',
 						page: this.page,
 						limit: 10
 					},
