@@ -60,6 +60,7 @@
 					url: '/pages/user/login/index'
 				})
 			}
+			this.initbadge()
 		},
 		onLoad(option) {
 			if(uni.getStorageSync('unread')) {
@@ -80,6 +81,28 @@
 				uni.navigateTo({
 					url: url
 				})
+			},
+			initbadge() {
+				if(uni.getStorageSync('unread')) {
+					uni.setTabBarBadge({
+					  index: 1,
+					  text: uni.getStorageSync('unread') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 1
+					})
+				}
+				if(uni.getStorageSync('count')) {
+					uni.setTabBarBadge({
+					  index: 2,
+					  text: uni.getStorageSync('count') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 2
+					})
+				}
 			},
 			logout() {
 				uni.showModal({

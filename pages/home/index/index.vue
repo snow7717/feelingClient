@@ -163,6 +163,7 @@
 		onShow() {
 			this.user = uni.getStorageSync('user')
 			this.form.commentator = this.user._id
+			this.initbadge()
 		},
 		onLoad() {
 			this.index()
@@ -206,6 +207,28 @@
 					scrollTop: 0,
 					duration: 300
 				})
+			},
+			initbadge() {
+				if(uni.getStorageSync('unread')) {
+					uni.setTabBarBadge({
+					  index: 1,
+					  text: uni.getStorageSync('unread') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 1
+					})
+				}
+				if(uni.getStorageSync('count')) {
+					uni.setTabBarBadge({
+					  index: 2,
+					  text: uni.getStorageSync('count') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 2
+					})
+				}
 			},
 			index() {
 				uni.request({

@@ -10,7 +10,7 @@
 			serverUrl: 'http://localhost:3000',
 		},
 		onLaunch() {
-			/* if(uni.getStorageSync('unread')) {
+			if(uni.getStorageSync('unread')) {
 				uni.setTabBarBadge({
 				  index: 1,
 				  text: uni.getStorageSync('unread') + ''
@@ -29,7 +29,7 @@
 				uni.removeTabBarBadge({
 					index: 2
 				})
-			} */
+			}
 		},
 		onShow() {
 		},

@@ -17,7 +17,7 @@
 				</view>
 			</block>
 		</view>
-		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" placeholder="请输入内容" @iconClick="send"></uni-easyinput>
+		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" v-bind:placeholder="isfriend ? '请输入内容' : '对方还不是您的好友，请先添加对方为好友'" @iconClick="send" v-bind:disabled='isfriend == false'></uni-easyinput>
 	</view>
 </template>
 
@@ -94,6 +94,7 @@
 				this.initscroll()
 			})
 			return {
+				isfriend: false,
 				to: {},
 				messages: [],
 				page: 1,
@@ -115,8 +116,9 @@
 			this.to = option
 			this.init()
 			this.index({
-					initscroll: true
-				})
+				initscroll: true
+			})
+			this.getisfriend()
 		},
 		onPullDownRefresh() {
 			if(this.isall) {
@@ -140,6 +142,17 @@
 				uni.getSystemInfo({
 					success: (res) => {
 						this.system = res
+					}
+				})
+			},
+			getisfriend() {
+				this.request({
+					url: '/friend/isfriend',
+					data: {
+						to: this.to._id
+					},
+					success: res => {
+						this.isfriend = res.data.data
 					}
 				})
 			},
@@ -173,6 +186,8 @@
 							return item.read == false && item.to == this.user._id
 						}).length > 0) {
 							this.setRead()
+						}else{
+							uni.setStorageSync('unread',0)
 						}
 						if(option.initscroll) {
 							this.initscroll()
@@ -184,7 +199,9 @@
 				this.request({
 					url: '/message/setread',
 					method: 'PUT',
-					success: res => {}
+					success: res => {
+						uni.setStorageSync('unread',0)
+					}
 				})
 			},
 			send() {

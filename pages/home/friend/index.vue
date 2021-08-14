@@ -6,9 +6,9 @@
 		<uni-collapse>
 		  <uni-collapse-item v-bind:title="'我的好友 (' + friends.length + ')'" v-bind:open="true">
 				<uni-swipe-action>
-					<uni-swipe-action-item v-for="(item,index) in friends" v-bind:key='index' v-bind:right-options="options" @click="handleAction($event,item)">
+					<uni-swipe-action-item v-for="(item,index) in friends" v-bind:key='index' v-bind:right-options="options" @click="handleAction($event,item)" v-show='item.from._id == user._id ? item.to.name.indexOf(keyword) > -1 : item.from.name.indexOf(keyword) > -1'>
 						<uni-list>
-							<uni-list-chat v-bind:title="item.from._id == user._id ? item.to.name : item.from.name" v-bind:avatar="item.from._id == user._id ? item.to.avatar : item.from.avatar" v-bind:note="item.from._id == user._id ? item.to.motto : item.from.motto"></uni-list-chat>
+							<uni-list-chat clickable v-bind:title="item.from._id == user._id ? item.to.name : item.from.name" v-bind:avatar="item.from._id == user._id ? item.to.avatar : item.from.avatar" v-bind:note="item.from._id == user._id ? item.to.motto : item.from.motto" v-on:click='go(`/pages/home/message/chat?_id=${item.from._id == user._id ? item.to._id : item.from._id}&name=${item.from._id == user._id ? item.to.name : item.from.name}`)'></uni-list-chat>
 						</uni-list>
 					</uni-swipe-action-item>
 				</uni-swipe-action>			
@@ -36,6 +36,7 @@
 				this.reqcount = data.count
 			})
 			return {
+				keyword: '',
 				reqcount: 0,
 				friends: [],
 				user: {},
@@ -53,13 +54,46 @@
 			this.user = uni.getStorageSync('user')
 			this.getCount()
 			this.index()
+			this.initbadge()
+		},
+		onNavigationBarSearchInputChanged(e) {
+			this.keyword = e.text
 		},
 		methods: {
+			go(url) {
+				console.log(url) 
+				uni.navigateTo({
+					url: url
+				})
+			},
+			initbadge() {
+				if(uni.getStorageSync('unread')) {
+					uni.setTabBarBadge({
+					  index: 1,
+					  text: uni.getStorageSync('unread') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 1
+					})
+				}
+				if(uni.getStorageSync('count')) {
+					uni.setTabBarBadge({
+					  index: 2,
+					  text: uni.getStorageSync('count') + ''
+					})
+				}else{
+					uni.removeTabBarBadge({
+						index: 2
+					})
+				}
+			},
 			getCount() {
 				this.request({
 					url: '/friendreq/count',
 					success: res => {
 						this.reqcount = res.data.data
+						uni.setStorageSync('count', res.data.data)
 					}
 				})
 			},

@@ -44,6 +44,8 @@
 </style>
 
 <script>
+	import socket from '@/socket.js'
+	
 	export default {
 		name: 'friendrequest',
 		data() {
@@ -171,6 +173,17 @@
 							this.messages.filter((itemer) => {
 								return itemer._id == item._id
 							})[0].status = status
+							this.request({
+								url: '/friendreq/count',
+								success: res => {
+									uni.setStorageSync('count', res.data.data)
+								}
+							})
+							socket.emit('message', {
+								from: this.user,
+								to: item.from._id,
+								content: status == '已通过' ? '我通过了你的好友申请' : '我拒绝了你的好友申请' 
+							})
 						}
 					}
 				})
