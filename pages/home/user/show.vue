@@ -14,7 +14,7 @@
 			<uni-list-item title='注册时间' v-bind:rightText='viewuser.created_at'></uni-list-item>
 			<uni-list-item title='他的发表' v-bind:rightText='count + ""' showArrow v-bind:to="'/pages/home/user/article?author=' + viewuser._id"></uni-list-item>
 		</uni-list>
-		<prompt v-bind:visible.sync="promptVisible" isMutipleLine placeholder="请输入验证消息" @confirm="send" mainColor="#e74a39"></prompt>
+		<cfriendadd ref='cfriendadd' v-bind:user='user' v-bind:viewuser="viewuser"></cfriendadd>
 	</view>
 </template>
 
@@ -45,8 +45,7 @@
 </style>
 
 <script>
-	import prompt from '@/components/zz-prompt/index.vue'
-	import socket from '@/socket.js'
+	import cfriendadd from '@/components/friend-add/index.vue'
 	const app = getApp()
 	
 	export default {
@@ -54,8 +53,7 @@
 		data() {
 			return {
 				viewuser: {},
-				count: 0,
-				promptVisible: false
+				count: 0
 			}
 		},
 		computed: {
@@ -64,7 +62,7 @@
 			}
 		},
 		components: {
-			prompt
+			cfriendadd
 		},
 		onLoad(option) {
 			this.show(option._id)
@@ -93,64 +91,7 @@
 				})
 			},
 			showprompt() {
-				if(this.user._id) {
-					this.request({
-						url: '/friend/isfriend',
-						data: {
-							to: this.viewuser._id
-						},
-						success: res => {
-							if(res.data.data) {
-								uni.showToast({
-									title: '你们已经是好友了,无需重复添加',
-									icon: 'none'
-								})
-							}else{
-								this.request({
-									url: '/friendreq/isrequested',
-									data: {
-										to: this.viewuser._id
-									},
-									success: res1 => {
-										if(res1.data.data) {
-											let title
-											if(res1.data.data.from == this.user._id) {
-												title = '您已经向对方发送好友验证,请等待对方验证'
-											}else{
-												title = '对方已向您发送好友验证，请去好友申请页面查看'
-											}
-											uni.showToast({
-												title: title,
-												icon: 'none',
-												duration: 3000
-											})
-										}else{
-											this.promptVisible = true
-										}
-									}
-								})
-								
-							}
-						}
-					})
-				}else{
-					uni.showToast({
-						title: '您还未登录,请先登录',
-						icon: 'none'
-					})
-				}
-			},
-			send(e) {
-				socket.emit('friendreq', {
-					from: this.user._id,
-					to: this.viewuser._id,
-					message: e
-				})
-				this.promptVisible = false
-				uni.showToast({
-					title: '好友申请发送成功,请等待对方验证',
-					icon: 'none'
-				})
+				this.$refs.cfriendadd.showprompt()
 			}
 		}
 	}

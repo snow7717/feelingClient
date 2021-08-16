@@ -3,7 +3,7 @@
 		<view class="header">
 			<uni-icons type="arrowleft" class="back" size="24" v-on:click='back'></uni-icons>
 			<text class="header-title f-tac f-fwb">{{to.name}}</text>
-			<uni-icons color="#999" class="icon" type="more-filled" size="24"></uni-icons>
+			<uni-icons color="#999" class="icon" v-bind:type="isfriend ? 'more-filled' : 'personadd'" size="24" v-on:click='isfriend ? "" : showprompt()'></uni-icons>
 		</view>
 		<view class="main">
 			<block v-for='(item, index) in messages' v-bind:key='index'>
@@ -18,6 +18,7 @@
 			</block>
 		</view>
 		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" v-bind:placeholder="isfriend ? '请输入内容' : '对方还不是您的好友，请先添加对方为好友'" @iconClick="send" v-bind:disabled='isfriend == false'></uni-easyinput>
+		<cfriendadd ref='cfriendadd' v-bind:user='user' v-bind:viewuser="to"></cfriendadd>
 	</view>
 </template>
 
@@ -83,6 +84,7 @@
 </style>
 
 <script>
+	import cfriendadd from '@/components/friend-add/index.vue'
 	import socket from '@/socket.js'
 	
 	export default {
@@ -110,6 +112,9 @@
 				return uni.getStorageSync('user')
 			}
 		},
+		components: {
+			cfriendadd
+		},
 		onShow() {
 		},
 		onLoad(option) {
@@ -119,6 +124,9 @@
 				initscroll: true
 			})
 			this.getisfriend()
+		},
+		onUnload() {
+			this.setRead()
 		},
 		onPullDownRefresh() {
 			if(this.isall) {
@@ -169,6 +177,9 @@
 					}).exec()
 				})
 			},
+			showprompt() {
+				this.$refs.cfriendadd.showprompt()
+			},
 			index(option) {
 				this.request({
 					url: '/message/chatindex',
@@ -186,8 +197,6 @@
 							return item.read == false && item.to == this.user._id
 						}).length > 0) {
 							this.setRead()
-						}else{
-							uni.setStorageSync('unread',0)
 						}
 						if(option.initscroll) {
 							this.initscroll()
@@ -199,8 +208,11 @@
 				this.request({
 					url: '/message/setread',
 					method: 'PUT',
+					data: {
+						from: this.to._id
+					},
 					success: res => {
-						uni.setStorageSync('unread',0)
+						uni.setStorageSync('unread',rea.data.data)
 					}
 				})
 			},
