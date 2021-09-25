@@ -1,0 +1,28 @@
+.container.data-v-1b2ea5ec {
+  padding-bottom: 20rpx;
+  padding-top: 20rpx;
+}
+.header.data-v-1b2ea5ec {
+  margin-bottom: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+.header .avatar.data-v-1b2ea5ec {
+  width: 120rpx;
+  max-height: 120rpx;
+}
+.header .set.data-v-1b2ea5ec {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.header .name.data-v-1b2ea5ec {
+  margin-left: 20rpx;
+  font-size: 32rpx;
+  width: 100rpx;
+  line-height: 120rpx;
+}
+

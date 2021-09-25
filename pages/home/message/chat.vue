@@ -9,15 +9,22 @@
 			<block v-for='(item, index) in messages' v-bind:key='index'>
 				<view class="message-from" v-if='item.from._id == to._id && item.to == user._id'>
 					<image v-bind:src='item.from.avatar' mode="aspectFill" class="avatar f-ib"></image>
-					<text class="message-content f-ib f-vat">{{item.content}}</text>
+					<text class="message-content f-ib f-vat" v-if='item.type == "text"'>{{item.content}}</text>
+					<view class="message-content f-ib f-vat" v-if='item.type == "image"'>
+						<image class='message-image' v-bind:src='item.content' mode="widthFix"></image>
+					</view>
 				</view>
 				<view class="message-to f-tar" v-if='(item.from._id == user._id && item.to == to._id && item.to != user._id) || (item.from == user._id && item.to == to._id && item.to != user._id)'>
-					<text class="message-content f-ib f-vat">{{item.content}}</text>
+					<text class="message-content f-ib f-vat" v-if='item.type == "text"'>{{item.content}}</text>
+					<view class="message-content f-ib f-vat" v-if='item.type == "image"'>
+						<image class='message-image' v-bind:src='item.content' mode="widthFix"></image>
+					</view>
 					<image v-bind:src='item.from.avatar || user.avatar' mode="aspectFill" class="avatar f-ib"></image>
 				</view>
 			</block>
 		</view>
-		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" v-bind:placeholder="isfriend ? '请输入内容' : '对方还不是您的好友，请先添加对方为好友'" @iconClick="send" v-bind:disabled='isfriend == false'></uni-easyinput>
+		<uni-easyinput suffixIcon="redo" type='textarea' class='input' v-model="form.content" v-bind:placeholder="isfriend ? '请输入内容' : '对方还不是您的好友，请先添加对方为好友'" @iconClick="send('text')" v-bind:disabled='isfriend == false'></uni-easyinput>
+		<drag-button isDock @btnClick='upimage'/>
 		<cfriendadd ref='cfriendadd' v-bind:user='user' v-bind:viewuser="to"></cfriendadd>
 	</view>
 </template>
@@ -58,6 +65,10 @@
 					margin-right 10rpx
 				}
 			}
+			.message-image{
+				max-width 300rpx
+				margin-top 20rpx
+			}
 			.avatar{
 				width 60rpx
 				height 60rpx
@@ -85,7 +96,9 @@
 
 <script>
 	import cfriendadd from '@/components/friend-add/index.vue'
+	import dragButton from "@/components/drag-button/drag-button.vue"
 	import socket from '@/socket.js'
+	const app = getApp()
 	
 	export default {
 		name: 'chat',
@@ -104,7 +117,13 @@
 				form: {
 					content: ''
 				},
-				system: {}
+				system: {},
+				fabs: [
+					{
+						iconPath: '/static/image/home/photo.png',
+						text: ''
+					}
+				]
 			}
 		},
 		computed: {
@@ -113,7 +132,8 @@
 			}
 		},
 		components: {
-			cfriendadd
+			cfriendadd,
+			dragButton
 		},
 		onShow() {
 		},
@@ -212,11 +232,33 @@
 						from: this.to._id
 					},
 					success: res => {
-						uni.setStorageSync('unread',rea.data.data)
+						uni.setStorageSync('unread',res.data.data)
 					}
 				})
 			},
-			send() {
+			upimage() {
+				uni.chooseImage({
+					count: 1,
+					success: res => {
+						const tempFilePaths = res.tempFilePaths
+						uni.uploadFile({
+							url: app.globalData.serverUrl + '/file/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							header: {
+								dirname: 'message',
+								Authorization: 'Bearer ' + uni.getStorageSync('authorization')
+							},
+							success: res => {
+								res.data = JSON.parse(res.data)
+								this.form.content = res.data.data.url
+								this.send('image')
+							}
+						})
+					}
+				})
+			},
+			send(type) {
 				if(this.form.content == '') {
 					uni.showToast({
 						title: '您不能发送空信息',
@@ -226,12 +268,14 @@
 					socket.emit('message', {
 						from: this.user,
 						to: this.to._id,
-						content: this.form.content
+						content: this.form.content,
+						type: type
 					})
 					this.messages.push({
 						from: this.user,
 						to: this.to._id,
-						content: this.form.content
+						content: this.form.content,
+						type: type
 					})
 					this.initscroll()
 					this.form.content = ''

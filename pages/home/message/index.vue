@@ -79,7 +79,6 @@
 				})
 			},
 			initbadge() {
-				console.log(uni.getStorageSync('unread'))
 				if(uni.getStorageSync('unread')) {
 					uni.setTabBarBadge({
 					  index: 1,

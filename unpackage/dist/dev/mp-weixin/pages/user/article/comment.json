@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "文章评论",
+  "usingComponents": {
+    "five-commentlist": "/components/five-commentlist/five-commentlist"
+  }
+}

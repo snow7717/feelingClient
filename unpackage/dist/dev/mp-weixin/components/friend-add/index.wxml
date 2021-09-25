@@ -1,0 +1,1 @@
+<prompt vue-id="7d083ed6-1" visible="{{promptVisible}}" isMutipleLine="{{true}}" placeholder="请输入验证消息" mainColor="#e74a39" data-event-opts="{{[['^updateVisible',[['__set_sync',['$0','promptVisible','$event'],['']]]],['^confirm',[['send']]]]}}" bind:updateVisible="__e" bind:confirm="__e" class="data-v-67214830" bind:__l="__l"></prompt>

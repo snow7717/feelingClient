@@ -1,0 +1,13 @@
+.container.data-v-3b16670c {
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+.container .avatar-label.data-v-3b16670c {
+  line-height: 60rpx;
+}
+.container .avatar.data-v-3b16670c {
+  width: 60rpx;
+  max-height: 60rpx;
+  border-radius: 10rpx;
+}
+

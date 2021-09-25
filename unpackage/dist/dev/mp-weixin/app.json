@@ -1,0 +1,63 @@
+{
+  "pages": [
+    "pages/home/index/index",
+    "pages/home/message/index",
+    "pages/home/message/chat",
+    "pages/home/article/show",
+    "pages/home/user/show",
+    "pages/home/user/article",
+    "pages/home/friend/index",
+    "pages/home/friend/request",
+    "pages/user/index/index",
+    "pages/user/register/index",
+    "pages/user/login/index",
+    "pages/user/setting/index",
+    "pages/user/info/index",
+    "pages/user/article/index",
+    "pages/user/article/list",
+    "pages/user/article/create",
+    "pages/user/article/edit",
+    "pages/user/article/comment",
+    "pages/user/comment/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#FF4A38",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index/index",
+        "iconPath": "static/image/common/home.png",
+        "selectedIconPath": "static/image/common/home1.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/home/message/index",
+        "iconPath": "static/image/common/message.png",
+        "selectedIconPath": "static/image/common/message1.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/home/friend/index",
+        "iconPath": "static/image/common/friend.png",
+        "selectedIconPath": "static/image/common/friend1.png",
+        "text": "好友"
+      },
+      {
+        "pagePath": "pages/user/index/index",
+        "iconPath": "static/image/common/user.png",
+        "selectedIconPath": "static/image/common/user1.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

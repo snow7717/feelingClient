@@ -1,0 +1,26 @@
+.container .header.data-v-1cb625ca {
+  padding: 20rpx;
+  background-color: #eee;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.container .header .back.data-v-1cb625ca {
+  width: 50rpx;
+}
+.container .header .header-title.data-v-1cb625ca {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.container .avatar-label.data-v-1cb625ca {
+  line-height: 60rpx;
+}
+.container .avatar.data-v-1cb625ca {
+  width: 60rpx;
+  max-height: 60rpx;
+  border-radius: 10rpx;
+}
+

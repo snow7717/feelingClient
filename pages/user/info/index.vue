@@ -5,9 +5,11 @@
 				<text slot='header' class="avatar-label f-fs2">头像</text>
 				<image v-on:click.stop='preview' v-bind:src='user.avatar' slot='footer' class="avatar" mode="aspectFill"></image>
 			</uni-list-item>
-			<uni-list-item clickable v-on:click='showprompt' title='昵称' showArrow v-bind:rightText="user.name"></uni-list-item>
+			<uni-list-item clickable v-on:click='showprompt("promptVisible")' title='昵称' showArrow v-bind:rightText="user.name"></uni-list-item>
+			<uni-list-item clickable v-on:click='showprompt("promptVisible1")' title="签名" showArrow v-bind:note='user.motto'></uni-list-item>
 		</uni-list>
 		<prompt v-bind:visible.sync="promptVisible" placeholder="请输入昵称" v-bind:defaultValue="user.name" @confirm="updateName" mainColor="#e74a39"></prompt>
+		<prompt v-bind:visible.sync="promptVisible1" placeholder="请输入签名" v-bind:defaultValue="user.motto" @confirm="updateMotto" mainColor="#e74a39"></prompt>
 	</view>
 </template>
 
@@ -35,7 +37,8 @@
 		data() {
 			return {
 				user: {},
-				promptVisible: false
+				promptVisible: false,
+				promptVisible1: false
 			}
 		},
 		components: {
@@ -51,7 +54,6 @@
 				})
 			},
 			upload() {
-				//选中本地图片
 				uni.chooseImage({ 
 					count: 1,
 					success: res => {
@@ -88,8 +90,8 @@
 					}
 				})
 			},
-			showprompt() {
-				this.promptVisible = true
+			showprompt(promptVisible) {
+				this[promptVisible] = true
 			},
 			updateName(e) {
 				this.request({
@@ -106,6 +108,26 @@
 						if(res.data.success) {
 							this.promptVisible = false
 							this.user.name = e
+							uni.setStorageSync('user', this.user)
+						}
+					}
+				})
+			},
+			updateMotto(e) {
+				this.request({
+					url: '/user/update',
+					method: 'PUT',
+					data: {
+						motto: e
+					},
+					success: res => {
+						uni.showToast({
+							title: res.data.message,
+							icon: 'none'
+						})
+						if(res.data.success) {
+							this.promptVisible1 = false
+							this.user.motto = e
 							uni.setStorageSync('user', this.user)
 						}
 					}

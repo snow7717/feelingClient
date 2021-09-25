@@ -1,0 +1,22 @@
+.container .header.data-v-098d3a3e {
+  padding: 20rpx;
+  background-color: #eee;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-bottom: 20rpx;
+}
+.container .header .back.data-v-098d3a3e {
+  width: 50rpx;
+}
+.container .header .header-title.data-v-098d3a3e {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.container .form.data-v-098d3a3e {
+  padding: 20rpx;
+}
+

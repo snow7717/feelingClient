@@ -1,0 +1,90 @@
+.container.data-v-04760e1e {
+  padding: 20rpx 20rpx 120rpx 20rpx;
+}
+.container .card.data-v-04760e1e {
+  margin-bottom: 20rpx;
+  border-bottom: #eee solid 20rpx;
+  padding-bottom: 20rpx;
+}
+.container .card .card-header.data-v-04760e1e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.container .card .card-header .avatar.data-v-04760e1e {
+  width: 80rpx;
+}
+.container .card .card-header .header-info.data-v-04760e1e {
+  margin-left: 20rpx;
+}
+.container .card .card-header .header-info .created-at.data-v-04760e1e {
+  font-size: 24rpx;
+  color: #999;
+}
+.container .card .card-body.data-v-04760e1e {
+  margin-top: 20rpx;
+}
+.container .card .card-body .article-title.data-v-04760e1e {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.container .card .card-body .article-content.data-v-04760e1e {
+  color: #999;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.container .card .card-body .article-images.data-v-04760e1e {
+  margin-top: 20rpx;
+}
+.container .card .card-body .article-images .article-image.data-v-04760e1e {
+  width: 120rpx;
+  max-height: 120rpx;
+  margin-right: 20rpx;
+}
+.container .card .card-footer.data-v-04760e1e {
+  border-top: #eee solid 2rpx;
+  padding-top: 20rpx;
+  margin-top: 20rpx;
+}
+.container .card .card-footer .comment-wrapper.data-v-04760e1e {
+  margin-left: 100rpx;
+}
+.container .card .card-footer .comment-wrapper .icon.data-v-04760e1e {
+  margin-right: 4rpx;
+}
+.container .card .card-footer .num.data-v-04760e1e {
+  position: relative;
+  top: -2rpx;
+}
+.container .load-all.data-v-04760e1e {
+  color: #999;
+  margin-top: 20rpx;
+}
+.container .backtop.data-v-04760e1e {
+  position: fixed;
+  bottom: 200rpx;
+  right: 40rpx;
+}
+.container .comment-popup.data-v-04760e1e {
+  padding-bottom: 400rpx;
+  max-height: 600rpx;
+  background-color: #fff;
+  overflow: auto;
+}
+.container .form.data-v-04760e1e {
+  padding: 20rpx;
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  z-index: 4;
+  width: 710rpx;
+  background-color: #fff;
+}
+.container .send.data-v-04760e1e {
+  margin-top: 20rpx;
+}
+

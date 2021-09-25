@@ -1,0 +1,27 @@
+.container .header.data-v-a2506d36 {
+  padding: 20rpx;
+  background-color: #eee;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.container .header .back.data-v-a2506d36 {
+  width: 50rpx;
+}
+.container .header .header-title.data-v-a2506d36 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.container .header .status.data-v-a2506d36 {
+  width: 170rpx;
+  position: relative;
+  top: -10rpx;
+}
+.container .no-message.data-v-a2506d36 {
+  color: #999;
+  margin-top: 100rpx;
+}
+
